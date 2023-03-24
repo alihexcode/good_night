@@ -2,21 +2,10 @@
 
 module Api
   class FriendshipsController < BaseController
-    before_action :set_friendship, only: %i[show update destroy]
+    before_action :set_current_user
+    before_action :set_friendship, only: :destroy
 
-    # GET /friendships
-    def index
-      @friendships = Friendship.all
-
-      render json: @friendships
-    end
-
-    # GET /friendships/1
-    def show
-      render json: @friendship
-    end
-
-    # POST /friendships
+    # POST /api/friendships
     def create
       @friendship = Friendship.new(friendship_params)
 
@@ -27,16 +16,7 @@ module Api
       end
     end
 
-    # PATCH/PUT /friendships/1
-    def update
-      if @friendship.update(friendship_params)
-        render json: @friendship
-      else
-        render json: @friendship.errors, status: :unprocessable_entity
-      end
-    end
-
-    # DELETE /friendships/1
+    # DELETE /api/friendships/:id
     def destroy
       @friendship.destroy
     end

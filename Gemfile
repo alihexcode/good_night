@@ -33,6 +33,7 @@ gem 'rswag'
 # gem 'rack-cors'
 
 group :development, :test do
+  gem 'faker'
   gem 'pry'
   gem 'rspec-rails', '~> 6.0.0'
   gem 'rubocop'
