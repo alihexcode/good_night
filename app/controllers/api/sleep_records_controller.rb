@@ -3,24 +3,25 @@
 module Api
   class SleepRecordsController < BaseController
     before_action :set_current_user
-    before_action :set_friend
-    before_action :authorize_friend, only: [:index]
 
-    # GET /sleep_records
+    # GET /api/users/:user_id/sleep_records
     def index
-      @sleep_records = SleepRecord.all
+      @sleep_records = current_user.sleep_records.order(created_at: :desc)
 
       render json: @sleep_records
     end
 
-    private
+    # POST /api/users/:user_id/sleep_records
+    def create
+      @sleep_record = current_user.sleep_records.create!(sleep_record_params)
 
-    def set_friend
-      @friend = User.find(params[:friend_id])
+      render json: @sleep_record
     end
 
-    def authorize_friend
-      authorize @friend, :friend?
+    private
+
+    def sleep_record_params
+      params.require(:sleep_record).permit(:start_time, :end_time)
     end
   end
 end

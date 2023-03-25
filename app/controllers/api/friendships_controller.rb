@@ -3,21 +3,17 @@
 module Api
   class FriendshipsController < BaseController
     before_action :set_current_user
-    before_action :set_friendship, only: :destroy
+    before_action :set_friendship, only: :unfriend
 
-    # POST /api/friendships
-    def create
-      @friendship = Friendship.new(friendship_params)
+    # POST /api/users/:user_id/friendships/:friend_id/add_friend
+    def add_friend
+      @friendship = Friendship.create!(friendship_params)
 
-      if @friendship.save
-        render json: @friendship, status: :created, location: @friendship
-      else
-        render json: @friendship.errors, status: :unprocessable_entity
-      end
+      render json: @friendship, status: :created
     end
 
-    # DELETE /api/friendships/:id
-    def destroy
+    # DELETE /api/users/:user_id/friendships/:friend_id/unfriend
+    def unfriend
       @friendship.destroy
     end
 
@@ -25,7 +21,11 @@ module Api
 
     # Use callbacks to share common setup or constraints between actions.
     def set_friendship
-      @friendship = Friendship.find(params[:id])
+      @friendship = current_user.friendships.find_by(friend_id: params[:friend_id])
+      return if @friendship
+
+      raise ActiveRecord::RecordNotFound,
+            I18n.t('activerecord.errors.messages.friendship_not_found', user_id: current_user.id, friend_id: params[:friend_id])
     end
 
     # Only allow a list of trusted parameters through.

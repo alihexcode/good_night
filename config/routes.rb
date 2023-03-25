@@ -6,11 +6,13 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :users, only: [:index] do
+      resources :sleep_records, only: [:index, :create]
       resources :friends, only: [:index, :show] do
-        resources :sleep_records, only: [:index]
+        get :sleep_records
       end
+      delete 'friendships/:friend_id/unfriend', to: 'friendships#unfriend'
+      post 'friendships/:friend_id/add_friend', to: 'friendships#add_friend'
     end
-    resources :friendships, only: [:create, :destroy]
   end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

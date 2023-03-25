@@ -30,5 +30,14 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    errors:
+      messages:
+        friendship_not_found: "Friendship not found for user %{user_id} and friend %{friend_id}"
+      models:
+        friendship:
+          already_exists: "already exists as a friend"
+        sleep_record:
+          already_exists_for_this_date: "start time or end time already exists for this date"
   errors:
     unauthorized_error: Unauthorized

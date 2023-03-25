@@ -19,7 +19,7 @@ module Api
     end
 
     def base_render_unprocessable_entity(exception)
-      render json: { message: exception.record.errors.full_messages }, status: :unprocessable_entity
+      render json: { message: exception.record.errors.full_messages.to_sentence }, status: :unprocessable_entity
     end
 
     def base_render_exeption_error(exception)
