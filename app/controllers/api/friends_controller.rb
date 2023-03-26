@@ -5,24 +5,27 @@ module Api
     before_action :set_current_user
     before_action :set_friend, only: %i[sleep_records show]
     before_action :authorize_friend, only: :sleep_records
+    after_action :paginate, only: %i[index sleep_records]
 
     # GET /api/users/:user_id/friends
     def index
       @friends = current_user.friends
 
-      render json: @friends
+      @pagy, @friends = pagy(@friends, page: params[:page] || 1, items: params[:per_page])
+      render json: Api::UserSerializer.new(@friends).as_json
     end
 
     # GET /api/users/:user_id/friends/:friend_id/sleep_records
     def sleep_records
       @sleep_records = SleepRecord.past_n_days(@friend, 7).order_by_sleep_length
 
-      render json: @sleep_records
+      @pagy, @sleep_records = pagy(@sleep_records, page: params[:page] || 1, items: params[:per_page])
+      render json: Api::SleepRecordSerializer.new(@sleep_records).as_json
     end
 
     # GET /api/users/:user_id/friends/:id
     def show
-      render json: @friend
+      render json: Api::UserSerializer.new(@friend).as_json
     end
 
     private

@@ -38,6 +38,11 @@ en:
         friendship:
           already_exists: "already exists as a friend"
         sleep_record:
-          already_exists_for_this_date: "start time or end time already exists for this date"
+          already_exists_for_this_date: "Sleep record already exists for this date"
   errors:
     unauthorized_error: Unauthorized
+    messages:
+      date_type: Must be a valid date
+      datetime_type: Must be a valid date and time
+      in_future: Must be larger than today
+      in_past: Must be smaller than today

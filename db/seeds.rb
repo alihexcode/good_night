@@ -13,7 +13,7 @@ end
 
 # Generate example user with friends
 user = User.first
-friends = User.where.not(id: user.id).limit(5)
+friends = User.where.not(id: user.id).limit(3)
 friends.each do |friend|
   friendship = user.friendships.build(friend: friend)
   friendship.save

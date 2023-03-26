@@ -9,7 +9,7 @@ module Api
     def add_friend
       @friendship = Friendship.create!(friendship_params)
 
-      render json: @friendship, status: :created
+      render json: Api::FriendshipSerializer.new(@friendship).as_json, status: :created
     end
 
     # DELETE /api/users/:user_id/friendships/:friend_id/unfriend

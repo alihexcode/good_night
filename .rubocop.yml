@@ -55,3 +55,6 @@ Rails/BulkChangeTable:
 
 RSpec/VariableName:
   Enabled: false
+
+Rails/FilePath:
+  Enabled: false

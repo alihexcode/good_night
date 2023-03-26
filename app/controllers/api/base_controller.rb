@@ -3,6 +3,9 @@
 module Api
   class BaseController < ActionController::API
     include Pundit
+    include Pagy::Backend
+    include HeaderPagination
+
     # Gets the current signed-in user based on the user_id parameter.
     attr_reader :current_user
 
@@ -38,6 +41,10 @@ module Api
     # Assumes that the user has already been authenticated and the user_id is valid.
     def set_current_user
       @current_user = User.find(params[:user_id])
+    end
+
+    def paginate
+      pagination_headers(@pagy)
     end
   end
 end
