@@ -1,0 +1,417 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/users/{user_id}/friends/{friend_id}/sleep_records":
+    get:
+      summary: sleep_records friend
+      parameters:
+      - name: user_id
+        in: path
+        description: user_id
+        example: 1
+        required: true
+        schema:
+          type: integer
+      - name: friend_id
+        in: path
+        description: friend_id
+        example: 2
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+          headers:
+            Link:
+              type: string
+              description: Link pagination
+            X-Page-Count:
+              type: integer
+              description: Total page count
+            X-Current-Page:
+              type: integer
+              description: Current page number
+            X-Page-Size:
+              type: integer
+              description: Item count in the current page
+            X-Total:
+              type: integer
+              description: Total number of items
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/sleep_records"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/sleep_records"
+  "/api/users/{user_id}/friends":
+    get:
+      summary: sleep_records friend
+      parameters:
+      - name: user_id
+        in: path
+        description: user_id
+        example: 1
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+          headers:
+            Link:
+              type: string
+              description: Link pagination
+            X-Page-Count:
+              type: integer
+              description: Total page count
+            X-Current-Page:
+              type: integer
+              description: Current page number
+            X-Page-Size:
+              type: integer
+              description: Item count in the current page
+            X-Total:
+              type: integer
+              description: Total number of items
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/user"
+  "/api/users/{user_id}/friendships/{friend_id}/unfriend":
+    parameters:
+    - name: user_id
+      in: path
+      description: user_id
+      example: 1
+      required: true
+      schema:
+        type: integer
+    - name: friend_id
+      in: path
+      description: friend_id
+      example: 2
+      required: true
+      schema:
+        type: integer
+    delete:
+      summary: unfriend friendship
+      responses:
+        '204':
+          description: successful
+  "/api/users/{user_id}/friendships/{friend_id}/add_friend":
+    parameters:
+    - name: user_id
+      in: path
+      description: user_id
+      example: 1
+      required: true
+      schema:
+        type: integer
+    - name: friend_id
+      in: path
+      description: friend_id
+      example: 2
+      required: true
+      schema:
+        type: integer
+    post:
+      summary: add_friend friendship
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    items:
+                      "$ref": "#/components/friendship"
+  "/api/users/{user_id}/sleep_records":
+    parameters:
+    - name: user_id
+      in: path
+      description: user_id
+      example: 1
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: list sleep_records
+      responses:
+        '200':
+          description: successful
+          headers:
+            Link:
+              type: string
+              description: Link pagination
+            X-Page-Count:
+              type: integer
+              description: Total page count
+            X-Current-Page:
+              type: integer
+              description: Current page number
+            X-Page-Size:
+              type: integer
+              description: Item count in the current page
+            X-Total:
+              type: integer
+              description: Total number of items
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/sleep_record"
+    post:
+      summary: create sleep_record
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sleep_record:
+                  type: object
+                  properties:
+                    start_time:
+                      type: string
+                      example: 23/03/2023 19:00
+                    end_time:
+                      type: string
+                      example: 24/03/2023 19:00
+                  required:
+                  - start_time
+                  - end_time
+  "/api/users":
+    get:
+      summary: list users
+      responses:
+        '200':
+          description: successful
+          headers:
+            Link:
+              type: string
+              description: Link pagination
+            X-Page-Count:
+              type: integer
+              description: Total page count
+            X-Current-Page:
+              type: integer
+              description: Current page number
+            X-Page-Size:
+              type: integer
+              description: Item count in the current page
+            X-Total:
+              type: integer
+              description: Total number of items
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/user"
+servers:
+- url: "{defaultHost}"
+  variables:
+    defaultHost:
+      default: ''
+components:
+  sleep_records:
+    type: object
+    required:
+    - id
+    - type
+    - attributes
+    - relationships
+    properties:
+      id:
+        type: string
+        example: '5'
+      type:
+        type: string
+        example: sleep_record
+      attributes:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 5
+          start_time:
+            type: string
+            format: datetime
+            example: '2023-03-22T19:00:00.000Z'
+          end_time:
+            type: string
+            format: datetime
+            example: '2023-03-23T19:00:00.000Z'
+          sleep_length_in_minutes:
+            type: number
+            example: 1440.0
+          created_at:
+            type: string
+            format: datetime
+            example: '2023-03-26T16:07:00.390Z'
+          updated_at:
+            type: string
+            format: datetime
+            example: '2023-03-26T16:07:00.390Z'
+      relationships:
+        type: object
+        properties:
+          user:
+            type: object
+            properties:
+              data:
+                type: object
+                required:
+                - id
+                - type
+                properties:
+                  id:
+                    type: string
+                    example: '2'
+                  type:
+                    type: string
+                    example: user
+  user:
+    type: object
+    required:
+    - id
+    - type
+    - attributes
+    properties:
+      id:
+        type: string
+        example: '1'
+      type:
+        type: string
+        example: user
+      attributes:
+        type: object
+        required:
+        - id
+        - name
+        - created_at
+        - updated_at
+        properties:
+          id:
+            type: integer
+            example: 1
+          name:
+            type: string
+            example: Fr. Shalonda Pfannerstill
+          created_at:
+            type: string
+            format: date-time
+            example: '2023-03-24T19:17:35.563Z'
+          updated_at:
+            type: string
+            format: date-time
+            example: '2023-03-24T19:17:35.563Z'
+  friendship:
+    type: object
+    required:
+    - id
+    - type
+    - attributes
+    - relationships
+    properties:
+      id:
+        type: string
+        example: '7'
+      type:
+        type: string
+        example: friendship
+      attributes:
+        type: object
+        required:
+        - id
+        - created_at
+        - updated_at
+        properties:
+          id:
+            type: integer
+            example: 7
+          created_at:
+            type: string
+            format: date-time
+            example: '2023-03-26T16:21:19.892Z'
+          updated_at:
+            type: string
+            format: date-time
+            example: '2023-03-26T16:21:19.892Z'
+      relationships:
+        type: object
+        required:
+        - user
+        - friend
+        properties:
+          user:
+            type: object
+            required:
+            - data
+            properties:
+              data:
+                type: object
+                required:
+                - id
+                - type
+                properties:
+                  id:
+                    type: string
+                    example: '1'
+                  type:
+                    type: string
+                    example: user
+          friend:
+            type: object
+            required:
+            - data
+            properties:
+              data:
+                type: object
+                required:
+                - id
+                - type
+                properties:
+                  id:
+                    type: string
+                    example: '7'
+                  type:
+                    type: string
+                    example: user

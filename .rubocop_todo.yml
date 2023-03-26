@@ -12,3 +12,11 @@
 # URISchemes: http, https
 Layout/LineLength:
   Max: 154
+RSpec/EmptyExampleGroup:
+  Exclude:
+  - 'spec/requests/api/friends_spec.rb'
+
+# Offense count: 1
+RSpec/ScatteredSetup:
+  Exclude:
+  - 'spec/requests/api/friends_spec.rb'

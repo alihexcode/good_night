@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/definitions_schema'
 
 RSpec.configure do |config|
   # Specify a root folder where Swagger JSON files are generated
@@ -24,14 +25,19 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'https://{defaultHost}',
+          url: '{defaultHost}',
           variables: {
             defaultHost: {
-              default: 'www.example.com'
+              default: ''
             }
           }
         }
-      ]
+      ],
+      components: {
+        sleep_records: SLEEP_RECORDS_SCHEMA,
+        user: USER_SCHEMA,
+        friendship: FRIENDSHIP_SCHEMA
+      }
     }
   }
 

@@ -3,7 +3,7 @@
 module Api
   class FriendsController < BaseController
     before_action :set_current_user
-    before_action :set_friend, only: %i[sleep_records show]
+    before_action :set_friend, only: %i[sleep_records]
     before_action :authorize_friend, only: :sleep_records
     after_action :paginate, only: %i[index sleep_records]
 
@@ -21,11 +21,6 @@ module Api
 
       @pagy, @sleep_records = pagy(@sleep_records, page: params[:page] || 1, items: params[:per_page])
       render json: Api::SleepRecordSerializer.new(@sleep_records).as_json
-    end
-
-    # GET /api/users/:user_id/friends/:id
-    def show
-      render json: Api::UserSerializer.new(@friend).as_json
     end
 
     private

@@ -12,13 +12,13 @@ class SleepRecord < ApplicationRecord
   validate :unique_sleep_record_date, on: :create
 
   def sleep_length_in_minutes
-    (end_time - start_time) / 60
+    ((end_time - start_time) / 60).to_i
   end
 
   private
 
   def unique_sleep_record_date
-    return unless user.sleep_records.exists?(['date(start_time) = ?', start_time&.to_date])
+    return unless user.present? && user.sleep_records.exists?(['date(start_time) = ?', start_time&.to_date])
 
     errors.add(:base, :already_exists_for_this_date)
   end

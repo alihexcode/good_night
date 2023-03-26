@@ -2,7 +2,7 @@
 
 module Api
   class BaseController < ActionController::API
-    include Pundit
+    include Pundit::Authorization
     include Pagy::Backend
     include HeaderPagination
 

@@ -30,7 +30,7 @@ module Api
 
     # Only allow a list of trusted parameters through.
     def friendship_params
-      params.require(:friendship).permit(:user_id, :friend_id)
+      params.permit(:user_id, :friend_id)
     end
   end
 end
