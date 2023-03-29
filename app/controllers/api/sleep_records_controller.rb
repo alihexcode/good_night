@@ -9,7 +9,7 @@ module Api
     def index
       @sleep_records = current_user.sleep_records.order(created_at: :desc)
 
-      @pagy, @sleep_records = pagy(@sleep_records, page: params[:page] || 1, items: params[:per_page])
+      @pagy, @sleep_records = pagy(@sleep_records, pagy_options)
       render json: Api::SleepRecordSerializer.new(@sleep_records).as_json
     end
 

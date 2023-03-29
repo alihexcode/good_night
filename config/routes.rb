@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index] do
       resources :sleep_records, only: [:index, :create]
       resources :friends, only: [:index, :show] do
-        get :sleep_records
+        get :sleep_records, on: :collection
       end
       delete 'friendships/:friend_id/unfriend', to: 'friendships#unfriend'
       post 'friendships/:friend_id/add_friend', to: 'friendships#add_friend'

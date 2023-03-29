@@ -15,6 +15,11 @@ end
 user = User.first
 friends = User.where.not(id: user.id).limit(3)
 friends.each do |friend|
-  friendship = user.friendships.build(friend: friend)
-  friendship.save
+  start_time = 1.week.ago.to_datetime
+  end_time = 1.day.ago.to_datetime
+  (start_time..end_time).each do |datetime|
+    tomorrow = datetime + 1.day
+    friend.sleep_records.create!(start_time: datetime.change(hour: rand(19..23)), end_time: tomorrow.change(hour: rand(5..10)))
+  end
+  user.friendships.create!(friend: friend)
 end

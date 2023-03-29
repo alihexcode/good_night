@@ -8,7 +8,7 @@ module Api
     def index
       @users = User.all
 
-      @pagy, @users = pagy(@users, page: params[:page] || 1, items: params[:per_page])
+      @pagy, @users = pagy(@users, pagy_options)
       render json: Api::UserSerializer.new(@users).as_json
     end
   end

@@ -3,7 +3,8 @@
 class SleepRecord < ApplicationRecord
   belongs_to :user
 
-  scope :past_n_days, ->(user, days) { where(user: user, end_time: (Time.current - days.days)..Time.current) }
+  scope :of_friends, ->(user) { where(user_id: Friendship.where(user_id: user.id).select(:friend_id)) }
+  scope :past_n_days, ->(days) { where(start_time: (Time.current - days.days)..Time.current) }
   scope :order_by_sleep_length, -> { select('*, (end_time - start_time) AS sleep_length').order('sleep_length DESC') }
 
   validates :start_time, :end_time, presence: true

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'pagy/extras/overflow'
+
 module Api
   class BaseController < ActionController::API
     include Pundit::Authorization
@@ -45,6 +47,14 @@ module Api
 
     def paginate
       pagination_headers(@pagy)
+    end
+
+    def pagy_options
+      {}.tap do |option|
+        option[:page] = params[:page] || 1
+        option[:items] = params[:per_page] || 10
+        option[:overflow] = :last_page
+      end
     end
   end
 end

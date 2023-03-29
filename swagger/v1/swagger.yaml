@@ -4,7 +4,7 @@ info:
   title: API V1
   version: v1
 paths:
-  "/api/users/{user_id}/friends/{friend_id}/sleep_records":
+  "/api/users/{user_id}/friends/sleep_records":
     get:
       summary: sleep_records friend
       parameters:
@@ -15,10 +15,17 @@ paths:
         required: true
         schema:
           type: integer
-      - name: friend_id
+      - name: page
         in: path
-        description: friend_id
-        example: 2
+        description: page
+        example: 1
+        required: true
+        schema:
+          type: integer
+      - name: per_page
+        in: path
+        description: per_page
+        example: 10
         required: true
         schema:
           type: integer
@@ -50,21 +57,24 @@ paths:
                     type: array
                     items:
                       "$ref": "#/components/sleep_records"
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      "$ref": "#/components/sleep_records"
   "/api/users/{user_id}/friends":
     get:
-      summary: sleep_records friend
+      summary: List friend
       parameters:
+      - name: page
+        in: path
+        description: page
+        example: 1
+        required: true
+        schema:
+          type: integer
+      - name: per_page
+        in: path
+        description: per_page
+        example: 10
+        required: true
+        schema:
+          type: integer
       - name: user_id
         in: path
         description: user_id
@@ -142,15 +152,6 @@ paths:
       responses:
         '201':
           description: created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    items:
-                      "$ref": "#/components/friendship"
   "/api/users/{user_id}/sleep_records":
     parameters:
     - name: user_id
@@ -162,6 +163,21 @@ paths:
         type: integer
     get:
       summary: list sleep_records
+      parameters:
+      - name: page
+        in: path
+        description: page
+        example: 1
+        required: true
+        schema:
+          type: integer
+      - name: per_page
+        in: path
+        description: per_page
+        example: 10
+        required: true
+        schema:
+          type: integer
       responses:
         '200':
           description: successful
@@ -189,7 +205,7 @@ paths:
                   data:
                     type: array
                     items:
-                      "$ref": "#/components/sleep_record"
+                      "$ref": "#/components/sleep_records"
     post:
       summary: create sleep_record
       parameters: []

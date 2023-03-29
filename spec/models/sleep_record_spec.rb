@@ -33,8 +33,8 @@ RSpec.describe SleepRecord do
     let!(:older_sleep_record) { create(:sleep_record, user: user, start_time: 2.days.ago, end_time: 1.day.ago) }
 
     describe '.past_n_days' do
-      it { expect(described_class.past_n_days(user, 1)).to include(recent_sleep_record) }
-      it { expect(described_class.past_n_days(user, 1)).not_to include(older_sleep_record) }
+      it { expect(described_class.past_n_days(1)).to include(recent_sleep_record) }
+      it { expect(described_class.past_n_days(1)).not_to include(older_sleep_record) }
     end
 
     describe '.order_by_sleep_length' do

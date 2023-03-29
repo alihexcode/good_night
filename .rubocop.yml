@@ -58,3 +58,6 @@ RSpec/VariableName:
 
 Rails/FilePath:
   Enabled: false
+
+RSpec/EmptyExampleGroup:
+  Enabled: false
